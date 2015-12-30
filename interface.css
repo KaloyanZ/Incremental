@@ -29,17 +29,22 @@ ul{
 }
 /*IDs*/
 #buttonContainer{
+	padding-left:3px;
 	height:auto;
 	display:inline-block;
+	width:488px;
 }
 #buildings{
-	display:inline-block;
+	float:left;
+	width:33%;
 }
 #upgrades{
 	display:inline-block;
+	width:33%;
 }
 #options{
-	display:inline-block;
+	float:right;
+	width:34%;
 }
 #cookies,#cookiesPerClick,#cookiesPerSecond,#cursors,#cursorCost,#factories,#factoryCost{
 	float: right;
