@@ -17,15 +17,9 @@ div {
 	padding: 0px;
 	overflow: hidden;
 	width: 260px;
-<<<<<<< HEAD
-	height: 134px;
+	height: auto;
 	background-color: lightblue;
 	border: 1px solid black;
-=======
-    height: auto;
-    background-color: lightblue;
-    border: 1px solid black;
->>>>>>> refs/remotes/origin/master
 	padding-left: 4px;
 	margin-bottom: 5px;
 	text-shadow: 2px 2px #C0C0C0;
