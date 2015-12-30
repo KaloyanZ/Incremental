@@ -13,16 +13,36 @@ var buildings = {
 
 var upgrades = {
 	cursorUpgrade1: {
+		tag: "cursorUpgrade1",
 		name: "Reinforced Fingers",
-		cost: 100,
+		cost: 200,
 		purchased: false,
-		tooltip: "Doubles the cookies gained from each cursor!"
+		tooltip: "Reinforced Fingers \nCost: 200 Cookies \nRequires at least 10 cursors. \nDoubles the cookies gained from each cursor and your clicks!",
+		prereq: 10
+	},
+	cursorUpgrade2: {
+		tag: "cursorUpgrade2",
+		name: "Ambidextrous",
+		cost: 2500,
+		purchased: false,
+		tooltip: "Ambidextrous \nCost: 2500 Cookies \nRequires at least 25 cursors. \nDoubles the cookies gained from each cursor and your clicks!",
+		prereq: 25
 	},
 	factoryUpgrade1: {
+		tag: "factoryUpgrade1",
 		name: "Safety Regulations",
 		cost: 1500,
 		purchased: false,
-		tooltip: "Doubles the cookies gained from each factory!"	
+		tooltip: "Safety Regulations \nCost: 1500 Cookies \nRequires at least 10 factories. \nDoubles the cookies gained from each factory!",
+		prereq: 10
+	},
+	factoryUpgrade2: {
+		tag: "factoryUpgrade2",
+		name: "Conveyor Belts",
+		cost: 10000,
+		purchased: false,
+		tooltip: "Conveyor Belts \nCost: 10000 Cookies \nRequires at least 25 factories. \nDoubles the cookies gained from each factory!",
+		prereq: 25
 	}
 }
 
@@ -34,10 +54,14 @@ function init()
 	//	load();
 	var cursorCost = Math.floor(10 * Math.pow(1.15,buildings.cursors));
 	var factoryCost = Math.floor(100 * Math.pow(1.1,buildings.factories));
+	
 	cursorEffUpdate();
 	factoryEffUpdate();
+	
 	updateCPC();
 	updateCPS();
+	
+	//Update stats
 	document.getElementById("cookies").innerHTML = prettify(cookies);
 	document.getElementById("cursors").innerHTML = prettify(buildings.cursors);
 	document.getElementById("factories").innerHTML = prettify(buildings.factories);
@@ -48,7 +72,9 @@ function init()
 	
 	//Tooltip handling
 	document.getElementById('cursorUpgrade1').setAttribute('title', upgrades.cursorUpgrade1.tooltip);
+	document.getElementById('cursorUpgrade2').setAttribute('title', upgrades.cursorUpgrade2.tooltip);
 	document.getElementById('factoryUpgrade1').setAttribute('title', upgrades.factoryUpgrade1.tooltip);	
+	document.getElementById('factoryUpgrade2').setAttribute('title', upgrades.factoryUpgrade2.tooltip);	
 };
 
 function cookiesOverTime(num)
@@ -63,6 +89,7 @@ function cookieClick()
 	cookies = cookies + cookiesPerClick;
 	document.getElementById("cookies").innerHTML = prettify(cookies);
 	console.log(cookiesPerClick);
+	console.log(upgrades.cursorUpgrade1.tag);
 };
 
 function buyCursor()
@@ -99,23 +126,47 @@ function buyUpgrade(upgradeName)
 {
 	switch (upgradeName){
 		case "Reinforced Fingers":
-			if(cookies >= upgrades.cursorUpgrade1.cost && upgrades.cursorUpgrade1.purchased == false)  //checks that the player can afford the upgrade and hasn't purchased it yet
+			var upgr = upgrades.cursorUpgrade1;
+			if(cookies >= upgr.cost && upgr.purchased == false && buildings.cursors >= upgr.prereq)  //checks that the player can afford the upgrade and hasn't purchased it yet
 			{
-			        upgrades.cursorUpgrade1.purchased = true;
+			        upgr.purchased = true;
 			        cursorEffUpdate();
 					updateCPC();
-		    		cookies = cookies - upgrades.cursorUpgrade1.cost;
-		        	document.getElementById('cursorUpgrade1').innerHTML = "Reinforced Fingers!";
+		    		cookies = cookies - upgr.cost;
+		        	updateUpgradeButtons();
+			        document.getElementById('cookies').innerHTML = prettify(cookies);
+			};
+		case "Ambidextrous":
+			var upgr = upgrades.cursorUpgrade2;
+			if(cookies >= upgr.cost && upgr.purchased == false && buildings.cursors >= upgr.prereq)  //checks that the player can afford the upgrade and hasn't purchased it yet
+			{
+			        upgr.purchased = true;
+			        cursorEffUpdate();
+					updateCPC();
+		    		cookies = cookies - upgr.cost;
+		        	updateUpgradeButtons();
 			        document.getElementById('cookies').innerHTML = prettify(cookies);
 			};
 		case "Safety Regulations":
-			if(cookies >= upgrades.factoryUpgrade1.cost && upgrades.factoryUpgrade1.purchased == false)  //checks that the player can afford the upgrade and hasn't purchased it yet
+			var upgr = upgrades.factoryUpgrade1;
+			if(cookies >= upgr.cost && upgr.purchased == false && buildings.factories >= upgr.prereq)  //checks that the player can afford the upgrade and hasn't purchased it yet
 			{
-			        upgrades.factoryUpgrade1.purchased = true;
+			        upgr.purchased = true;
 			        factoryEffUpdate();
 					updateCPS();
-		    		cookies = cookies - upgrades.factoryUpgrade1.cost;
-		        	document.getElementById('factoryUpgrade1').innerHTML = "Safety Regulations!";
+		    		cookies = cookies - upgr.cost;
+		        	updateUpgradeButtons();
+			        document.getElementById('cookies').innerHTML = prettify(cookies);
+			};
+		case "Conveyor Belts":
+			var upgr = upgrades.factoryUpgrade2;
+			if(cookies >= upgr.cost && upgr.purchased == false && buildings.factories >= upgr.prereq)  //checks that the player can afford the upgrade and hasn't purchased it yet
+			{
+			        upgr.purchased = true;
+			        factoryEffUpdate();
+					updateCPS();
+		    		cookies = cookies - upgr.cost;
+		        	updateUpgradeButtons();
 			        document.getElementById('cookies').innerHTML = prettify(cookies);
 			};
 	}
@@ -142,84 +193,80 @@ function prettify(input)
 	return output;
 }
 
+function updateUpgradeButtons()
+{
+	for (var prop in upgrades) {
+		if (upgrades.hasOwnProperty(prop)) {
+			if (upgrades[prop].purchased == true) {
+				document.getElementById(upgrades[prop].tag).innerHTML = "Upgrade Purchased";
+				document.getElementById(upgrades[prop].tag).disabled = true;
+			}
+			if (upgrades[prop].purchased == false) {
+				document.getElementById(upgrades[prop].tag).innerHTML = upgrades[prop].name;
+				document.getElementById(upgrades[prop].tag).disabled = false;
+			}
+		}
+	}
+}
+
 function save()
 {
-	var save = {
-		cookies: cookies,
-		cursors: buildings.cursors,
-		factories: buildings.factories,
-		cookiesPerClick: cookiesPerClick,
-		cookiesPerInterval: cookiesPerInterval,
-	}
-	localStorage.setItem("save",JSON.stringify(save));
+//	var save = {
+//		cookies: cookies,
+//		buildings: buildings,
+//		upgrades: upgrades
+//	}
+//	localStorage.setItem("save",JSON.stringify(save));
 }
 
 function load()
 {
-	if (localStorage.getItem("save") !== "undefined")
-		var savegame = JSON.parse(localStorage.getItem("save"));
-	else
-		var savegame = {
-			cookies: 0,
-			cursors: 0,
-			factories: 0,
-			cookiesPerClick: 1,
-			cookiesPerInterval: 0,
-		}
-	if (typeof savegame.cookies !== "undefined") 
-		cookies = savegame.cookies;
-		document.getElementById("cookies").innerHTML = prettify(cookies);
-	if (typeof savegame.cursors !== "undefined" && typeof buildings.cursors !== "undefined") 
-		buildings.cursors = savegame.cursors;
-		document.getElementById("cursors").innerHTML = prettify(buildings.cursors);
-		document.getElementById('cursorCost').innerHTML = prettify(Math.floor(10 * Math.pow(1.15,buildings.cursors)));
-	if (typeof savegame.factories !== "undefined" && typeof buildings.factories !== "undefined") 
-		buildings.factories = savegame.factories;
-		document.getElementById("factories").innerHTML = prettify(buildings.factories);
-		document.getElementById("factoryCost").innerHTML = prettify(Math.floor(100 * Math.pow(1.1,buildings.factories)));
-	if (typeof savegame.cookiesPerClick !== "undefined") 
-		cookiesPerClick = savegame.cookiesPerClick;
-		document.getElementById("cookiesPerClick").innerHTML = prettify(cookiesPerClick);
-	if (typeof savegame.cookiesPerInterval !== "undefined") 
-		cookiesPerInterval = savegame.cookiesPerInterval;
-		document.getElementById("cookiesPerSecond").innerHTML = prettify(cookiesPerInterval * 10);
-	
+//	if (localStorage.getItem("save") !== "undefined")
+//		var savegame = JSON.parse(localStorage.getItem("save"));
+//		cookies = savegame.cookies;
+//		buildings = savegame.buildings;
+//		upgrades = savegame.upgrades;
+//		document.getElementById("cookies").innerHTML = prettify(cookies);
+//		document.getElementById("cursors").innerHTML = prettify(buildings.cursors);
+//		document.getElementById("cursorCost").innerHTML = prettify(Math.floor(10 * Math.pow(1.15,buildings.cursors)));
+//		document.getElementById("factories").innerHTML = prettify(buildings.factories);
+//		document.getElementById("factoryCost").innerHTML = prettify(Math.floor(100 * Math.pow(1.1,buildings.factories)));
+//		
+//		updateUpgradeButtons();
+//		
+//		updateCPC();
+//		updateCPS();
 }
 
 function deleteSave()
 {
-	localStorage.removeItem("save");
-	cookies = 0;
-	buildings.cursors = 0;
-	buildings.factories = 0;
-	cookiesPerClick = 1;
-	cookiesPerInterval = 0;
-	cursorCost = Math.floor(10 * Math.pow(1.15,buildings.cursors));
-	factoryCost = Math.floor(100 * Math.pow(1.1,buildings.factories));
-	document.getElementById("cookies").innerHTML = prettify(cookies);
-	document.getElementById("cursors").innerHTML = prettify(buildings.cursors);
-	document.getElementById("factories").innerHTML = prettify(buildings.factories);
-	document.getElementById("cookiesPerClick").innerHTML = prettify(cookiesPerClick);
-	document.getElementById("cookiesPerSecond").innerHTML = prettify(cookiesPerInterval * 10);
-	document.getElementById('cursorCost').innerHTML = prettify(cursorCost);
-	document.getElementById('factoryCost').innerHTML = prettify(factoryCost);
+//	localStorage.removeItem("save");
+//	cookies = 0;
+//	buildings.cursors = 0;
+//	buildings.factories = 0;
+//	cookiesPerClick = 1;
+//	cookiesPerInterval = 0;
+//	cursorCost = Math.floor(10 * Math.pow(1.15,buildings.cursors));
+//	factoryCost = Math.floor(100 * Math.pow(1.1,buildings.factories));
+//	document.getElementById("cookies").innerHTML = prettify(cookies);
+//	document.getElementById("cursors").innerHTML = prettify(buildings.cursors);
+//	document.getElementById("factories").innerHTML = prettify(buildings.factories);
+//	document.getElementById("cookiesPerClick").innerHTML = prettify(cookiesPerClick);
+//	document.getElementById("cookiesPerSecond").innerHTML = prettify(cookiesPerInterval * 10);
+//	document.getElementById("cursorCost").innerHTML = prettify(cursorCost);
+//	document.getElementById("factoryCost").innerHTML = prettify(factoryCost);
 }
 
 function cursorEffUpdate()  // Used when updating CPC
 {
 	cursorEff = buildings.cursors;
-	if (upgrades.cursorUpgrade1.purchased == true)
-	{
-		cursorEff = cursorEff * 2;
-	}
+	if (upgrades.cursorUpgrade1.purchased == true) {cursorEff = cursorEff * 2;}
+	if (upgrades.cursorUpgrade2.purchased == true) {cursorEff = cursorEff * 2;}
 }
 
 function factoryEffUpdate()  // Used when updating CPS
 {
 	factoryEff = buildings.factories;
-	if (upgrades.factoryUpgrade1.purchased == true)
-	{
-		factoryEff = factoryEff * 2;
-	}
+	if (upgrades.factoryUpgrade1.purchased == true) {factoryEff = factoryEff * 2;}
+	if (upgrades.factoryUpgrade2.purchased == true) {factoryEff = factoryEff * 2;}
 }
-
