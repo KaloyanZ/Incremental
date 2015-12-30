@@ -5,7 +5,7 @@ var cookiesPerClick = 1;
 var cookiesPerInterval = 0;
 var timer = setInterval(function(){cookiesOverTime(cookiesPerInterval);}, 100);
 window.onload = init();
-
+//Testing
 
 function init()
 {
