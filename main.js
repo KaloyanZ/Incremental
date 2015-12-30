@@ -5,12 +5,9 @@ var cookiesPerClick = 1;
 var cookiesPerInterval = 0;
 var timer = setInterval(function(){cookiesOverTime(cookiesPerInterval);}, 100);
 window.onload = init();
-//World turbo Hello!
-//apples
 
 function init()
 {
-	
 	if (localStorage.getItem("save") !== "undefined" && localStorage.getItem("save") !== "null")
 		load();
 	var cursorCost = Math.floor(10 * Math.pow(1.15,cursors));
@@ -22,8 +19,6 @@ function init()
 	document.getElementById("cookiesPerSecond").innerHTML = prettify(cookiesPerInterval * 10);
 	document.getElementById('cursorCost').innerHTML = prettify(cursorCost);
 	document.getElementById('factoryCost').innerHTML = prettify(factoryCost);
-	//save();
-	//window.setInterval(function(){cookiesOverTime(cookiesPerInterval);}, 100);
 };
 
 function cookiesOverTime(num)
@@ -40,9 +35,11 @@ function cookieClick()
 	console.log(cookiesPerClick);
 };
 
-function buyCursor(){
+function buyCursor()
+{
     var cursorCost = Math.floor(10 * Math.pow(1.15,cursors));    		//works out the cost of this cursor
-    if(cookies >= cursorCost){                                   		//checks that the player can afford the cursor
+    if(cookies >= cursorCost)
+    {                                   		//checks that the player can afford the cursor
         cursors = cursors + 1;                                   		//increases number of cursors
     	cookies = cookies - cursorCost;                          		//removes the cookies spent
         document.getElementById('cursors').innerHTML = prettify(cursors);  		//updates the number of cursors for the user
@@ -53,9 +50,11 @@ function buyCursor(){
 	updateCPC();
 };
 
-function buyFactory(){
+function buyFactory()
+{
     var factoryCost = Math.floor(100 * Math.pow(1.1,factories));     	//works out the cost of this factory
-    if(cookies >= factoryCost){                                   		//checks that the player can afford the factory
+    if(cookies >= factoryCost)
+    {                                   		//checks that the player can afford the factory
         factories = factories + 1;                                   	//increases number of factories
     	cookies = cookies - factoryCost;                          		//removes the cookies spent
         document.getElementById('factories').innerHTML = prettify(factories);  	//updates the number of factories for the user
@@ -79,7 +78,8 @@ function updateCPS()
 	document.getElementById('cookiesPerSecond').innerHTML = prettify(cookiesPerInterval * 10);
 }
 
-function prettify(input){
+function prettify(input)
+{
     var output = Math.round(input * 1000000)/1000000;
 	return output;
 }
@@ -95,8 +95,6 @@ function save()
 	}
 	localStorage.setItem("save",JSON.stringify(save));
 }
-
-//test comment
 
 function load()
 {
