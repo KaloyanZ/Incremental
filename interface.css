@@ -11,14 +11,21 @@ button{
 	margin-bottom: 5px;
 	margin-left: 50px;
 	width: 160px;
+	text-shadow: 2px 2px #C0C0FF;  /* Made the buttons have text shadows as well */
 }
 div {
-    padding: 0px;
+	padding: 0px;
 	overflow: hidden;
 	width: 260px;
+<<<<<<< HEAD
+	height: 134px;
+	background-color: lightblue;
+	border: 1px solid black;
+=======
     height: auto;
     background-color: lightblue;
     border: 1px solid black;
+>>>>>>> refs/remotes/origin/master
 	padding-left: 4px;
 	margin-bottom: 5px;
 	text-shadow: 2px 2px #C0C0C0;
