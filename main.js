@@ -26,18 +26,18 @@ function init()
 	//window.setInterval(function(){cookiesOverTime(cookiesPerInterval);}, 100);
 };
 
-function cookieClick()
-{
-	cookies = cookies + cookiesPerClick;
-	document.getElementById("cookies").innerHTML = prettify(cookies);
-	console.log(cookiesPerClick);
-};
-
 function cookiesOverTime(num)
 {
 	cookies = cookies + num;
 	document.getElementById("cookies").innerHTML = prettify(cookies);
 	console.log(num);
+};
+
+function cookieClick()
+{
+	cookies = cookies + cookiesPerClick;
+	document.getElementById("cookies").innerHTML = prettify(cookies);
+	console.log(cookiesPerClick);
 };
 
 function buyCursor(){
@@ -95,6 +95,8 @@ function save()
 	}
 	localStorage.setItem("save",JSON.stringify(save));
 }
+
+//test comment
 
 function load()
 {
