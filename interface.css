@@ -14,6 +14,7 @@ button{
 	margin-bottom: 5px;
 	margin-left: 50px;
 	width: 160px;
+	text-shadow: 2px 2px #C0C0FF;  /* Made the buttons have text shadows as well */
 }
 
 #cookies,#cookiesPerClick,#cookiesPerSecond,#cursors,#cursorCost,#factories,#factoryCost{
@@ -27,12 +28,12 @@ button{
 }
 
 div {
-    padding: 0px;
+	padding: 0px;
 	overflow: hidden;
 	width: 260px;
-    height: 134px;
-    background-color: lightblue;
-    border: 1px solid black;
+	height: 134px;
+	background-color: lightblue;
+	border: 1px solid black;
 	padding-left: 4px;
 	margin-bottom: 5px;
 	text-shadow: 2px 2px #C0C0C0;
