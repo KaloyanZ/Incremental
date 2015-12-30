@@ -45,6 +45,10 @@ function init()
 	document.getElementById("cookiesPerSecond").innerHTML = prettify(cookiesPerInterval * 10);
 	document.getElementById('cursorCost').innerHTML = prettify(cursorCost);
 	document.getElementById('factoryCost').innerHTML = prettify(factoryCost);
+	
+	//Tooltip handling
+	document.getElementById('cursorUpgrade1').setAttribute('title', upgrades.cursorUpgrade1.tooltip);
+	document.getElementById('factoryUpgrade1').setAttribute('title', upgrades.factoryUpgrade1.tooltip);	
 };
 
 function cookiesOverTime(num)
