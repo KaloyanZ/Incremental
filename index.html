@@ -4,16 +4,9 @@
 	
 </head>
 <body>
-	
-	
-	<!-- Buttons -->
-	<button onClick="cookieClick()">Click for Cookies!</button><br/>
-	<button onClick="buyCursor()">Buy Cursor</button><br/>
-	<button onClick="buyFactory()">Buy Cookie Factory</button><br/>
-	
 	<!-- Text -->
 	<div class="resources">
-		<ul>
+		<ul id="data">
 			<li>Cookies: <span id="cookies">0</span><br/></li>
 			<li>Cookies per Click: <span id="cookiesPerClick">1</span><br/></li>
 			<li>Cookies per Second: <span id="cookiesPerSecond">0</span><br/></li>
@@ -24,17 +17,33 @@
 		</ul>
 	</div>
 	
-	<!-- Save/Load Buttons -->
-	<button onClick="save()">Save Game</button><br/>
-	<button onClick="load()">Load Game</button><br/>
-	<button onClick="deleteSave()">Delete Save</button><br/>
-	
-	<!--
-	<p class="testClass">
-	TEST TEXT
-	</p>
-	-->
-	
+	<div id="buttonContainer">
+		<!-- Building Buttons -->
+		<div id="buildings">
+			<ul>
+				<li><button onClick="cookieClick()">Click for Cookies!</button></li>
+				<li><button onClick="buyCursor()">Buy Cursor</button></li>
+				<li><button onClick="buyFactory()">Buy Cookie Factory</button></li>
+			</ul>
+		</div>
+		<!-- Upgrade Buttons -->
+		<div id="upgrades">
+			<ul>
+				<li><button onClick="buyUpgrade(cursorUpgrade1)">Reinforced Fingers</button></li>
+				<li><button onClick="buyUpgrade(factoryUpgrade1)">Safety Regulations</button></li>
+			</ul>
+		</div>
+		<!-- Save/Load Buttons -->
+		<div id="options">
+			<ul>	
+				<li><button onClick="save()" id="save">Save Game</button></li>
+				<li><button onClick="load()" id="load">Load Game</button></li>
+				<li><button onClick="deleteSave()" id="saveDelete">Delete Save</button></li>
+				<li><button onClick="buyFactory()">Buy Cookie Factory</button></li>
+			</ul>
+		</div>
+	</div>
+
 	<!-- file to get the js code from -->
 	<script type="text/javascript" src="main.js"></script>
 </body>

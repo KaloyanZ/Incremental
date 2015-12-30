@@ -1,7 +1,4 @@
 p{
-	/*
-	float: right;
-	*/
 	padding: 0;
 }
 button{
@@ -9,20 +6,9 @@ button{
 	font-size: 16;
 	text-align: center;
 	margin-bottom: 5px;
-	margin-left: 50px;
+	margin-left: 0px;
 	width: 160px;
 	text-shadow: 2px 2px #C0C0FF;  /* Made the buttons have text shadows as well */
-}
-div {
-	padding: 0px;
-	overflow: hidden;
-	width: 260px;
-	height: auto;
-	background-color: lightblue;
-	border: 1px solid black;
-	padding-left: 4px;
-	margin-bottom: 5px;
-	text-shadow: 2px 2px #C0C0C0;
 }
 ul{
 	list-style-type:none;
@@ -31,11 +17,35 @@ ul{
 /*Classes*/
 .resources{
 	font-family: Verdana;
-}
-.testClass{
-	font-family: Times New Roman;
+	padding: 0px;
+	overflow: hidden;
+	width: 484px;
+	height: auto;
+	background-color: lightblue;
+	border: 1px solid black;
+	padding-left: 4px;
+	margin-bottom: 5px;
+	text-shadow: 2px 2px #C0C0C0;
 }
 /*IDs*/
+#buttonContainer{
+	padding-left:3px;
+	height:auto;
+	display:inline-block;
+	width:488px;
+}
+#buildings{
+	float:left;
+	width:33%;
+}
+#upgrades{
+	display:inline-block;
+	width:33%;
+}
+#options{
+	float:right;
+	width:34%;
+}
 #cookies,#cookiesPerClick,#cookiesPerSecond,#cursors,#cursorCost,#factories,#factoryCost{
 	float: right;
 	padding-right: 4px;
