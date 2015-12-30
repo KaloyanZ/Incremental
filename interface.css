@@ -4,9 +4,6 @@ p{
 	*/
 	padding: 0;
 }
-.resources{
-	font-family: Verdana;
-}
 button{
 	font-family: Calibri;
 	font-size: 16;
@@ -15,25 +12,31 @@ button{
 	margin-left: 50px;
 	width: 160px;
 }
-
-#cookies,#cookiesPerClick,#cookiesPerSecond,#cursors,#cursorCost,#factories,#factoryCost{
-	float: right;
-	padding-right: 4px;
-	text-shadow: 2px 2px #C0C0FF;
-}
-
-.testClass{
-	font-family: Times New Roman;
-}
-
 div {
     padding: 0px;
 	overflow: hidden;
 	width: 260px;
-    height: 134px;
+    height: auto;
     background-color: lightblue;
     border: 1px solid black;
 	padding-left: 4px;
 	margin-bottom: 5px;
 	text-shadow: 2px 2px #C0C0C0;
+}
+ul{
+	list-style-type:none;
+	padding-left:0;
+}
+/*Classes*/
+.resources{
+	font-family: Verdana;
+}
+.testClass{
+	font-family: Times New Roman;
+}
+/*IDs*/
+#cookies,#cookiesPerClick,#cookiesPerSecond,#cursors,#cursorCost,#factories,#factoryCost{
+	float: right;
+	padding-right: 4px;
+	text-shadow: 2px 2px #C0C0FF;
 }
