@@ -124,6 +124,7 @@ function buyFactory()
 
 function buyUpgrade(upgradeName)
 {
+	
 	switch (upgradeName){
 		case "Reinforced Fingers":
 			var upgr = upgrades.cursorUpgrade1;
@@ -136,6 +137,7 @@ function buyUpgrade(upgradeName)
 		        	updateUpgradeButtons();
 			        document.getElementById('cookies').innerHTML = prettify(cookies);
 			};
+			break;
 		case "Ambidextrous":
 			var upgr = upgrades.cursorUpgrade2;
 			if(cookies >= upgr.cost && upgr.purchased == false && buildings.cursors >= upgr.prereq)  //checks that the player can afford the upgrade and hasn't purchased it yet
@@ -147,6 +149,7 @@ function buyUpgrade(upgradeName)
 		        	updateUpgradeButtons();
 			        document.getElementById('cookies').innerHTML = prettify(cookies);
 			};
+			break;
 		case "Safety Regulations":
 			var upgr = upgrades.factoryUpgrade1;
 			if(cookies >= upgr.cost && upgr.purchased == false && buildings.factories >= upgr.prereq)  //checks that the player can afford the upgrade and hasn't purchased it yet
@@ -158,6 +161,7 @@ function buyUpgrade(upgradeName)
 		        	updateUpgradeButtons();
 			        document.getElementById('cookies').innerHTML = prettify(cookies);
 			};
+			break;
 		case "Conveyor Belts":
 			var upgr = upgrades.factoryUpgrade2;
 			if(cookies >= upgr.cost && upgr.purchased == false && buildings.factories >= upgr.prereq)  //checks that the player can afford the upgrade and hasn't purchased it yet
@@ -169,6 +173,9 @@ function buyUpgrade(upgradeName)
 		        	updateUpgradeButtons();
 			        document.getElementById('cookies').innerHTML = prettify(cookies);
 			};
+			break;
+		default:
+			break;
 	}
 }
 
