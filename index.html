@@ -13,7 +13,9 @@
 			<li>Cursors: <span id="cursors">0</span><br/></li>
 			<li>Cursor Cost: <span id="cursorCost">10</span><br/></li>
 			<li>Cookie Factories: <span id="factories">0</span><br/></li>
-			<li>Cookie Factory Cost: <span id="factoryCost">100</span><br/></li>
+			<li>Cookie Factory Cost: <span id="factoryCost">200</span><br/></li>
+			<li>Cookie Mines: <span id="mines">0</span><br/></li>
+			<li>Cookie Mine Cost: <span id="mineCost">20000</span><br/></li>
 		</ul>
 	</div>
 	
@@ -24,6 +26,7 @@
 				<li><button onClick="cookieClick()">Click for Cookies!</button></li>
 				<li><button onClick="buyCursor()">Buy Cursor</button></li>
 				<li><button onClick="buyFactory()">Buy Cookie Factory</button></li>
+				<li><button onClick="buyMine()">Buy Cookie Mine</button></li>
 			</ul>
 		</div>
 		<!-- Upgrade Buttons -->
@@ -33,6 +36,8 @@
 				<li><button id="cursorUpgrade2" onClick="buyUpgrade(upgrades.cursorUpgrade2.name)">Ambidextrous</button></li>
 				<li><button id="factoryUpgrade1" onClick="buyUpgrade(upgrades.factoryUpgrade1.name)">Safety Regulations</button></li>
 				<li><button id="factoryUpgrade2" onClick="buyUpgrade(upgrades.factoryUpgrade2.name)">Conveyor Belts</button></li>
+				<li><button id="mineUpgrade1" onClick="buyUpgrade(upgrades.mineUpgrade1.name)">Chocolate Pickaxes</button></li>
+				<li><button id="mineUpgrade2" onClick="buyUpgrade(upgrades.mineUpgrade2.name)">Chocolate Drills</button></li>
 			</ul>
 		</div>
 		<!-- Save/Load Buttons -->
@@ -41,6 +46,7 @@
 				<li><button onClick="save()" id="save">Save Game</button></li>
 				<li><button onClick="load()" id="load">Load Game</button></li>
 				<li><button onClick="deleteSave()" id="saveDelete">Delete Save</button></li>
+				<li><button onClick="debugClick()">Debug Button!</button></li>
 			</ul>
 		</div>
 	</div>
