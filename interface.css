@@ -46,7 +46,7 @@ ul{
 	float:right;
 	width:34%;
 }
-#cookies,#cookiesPerClick,#cookiesPerSecond,#cursors,#cursorCost,#factories,#factoryCost{
+#cookies,#cookiesPerClick,#cookiesPerSecond,#cursors,#cursorCost,#factories,#factoryCost,#mines,#mineCost{
 	float: right;
 	padding-right: 4px;
 	text-shadow: 2px 2px #C0C0FF;

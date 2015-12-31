@@ -5,10 +5,12 @@ var cookiesPerClick = 1;
 var cookiesPerInterval = 0;
 var cursorEff = 0;
 var factoryEff = 0;
+var mineEff = 0;
 
 var buildings = {
 	cursors: 0,
-	factories: 0
+	factories: 0,
+	mines: 0
 }
 
 var upgrades = {
@@ -31,19 +33,36 @@ var upgrades = {
 	factoryUpgrade1: {
 		tag: "factoryUpgrade1",
 		name: "Safety Regulations",
-		cost: 1500,
+		cost: 3500,
 		purchased: false,
-		tooltip: "Safety Regulations \nCost: 1500 Cookies \nRequires at least 10 factories. \nDoubles the cookies gained from each factory!",
+		tooltip: "Safety Regulations \nCost: 3500 Cookies \nRequires at least 10 factories. \nDoubles the cookies gained from each factory!",
 		prereq: 10
 	},
 	factoryUpgrade2: {
 		tag: "factoryUpgrade2",
 		name: "Conveyor Belts",
-		cost: 10000,
+		cost: 12000,
 		purchased: false,
-		tooltip: "Conveyor Belts \nCost: 10000 Cookies \nRequires at least 25 factories. \nDoubles the cookies gained from each factory!",
+		tooltip: "Conveyor Belts \nCost: 12000 Cookies \nRequires at least 25 factories. \nDoubles the cookies gained from each factory!",
+		prereq: 25
+	},
+	mineUpgrade1: {
+		tag: "mineUpgrade1",
+		name: "Chocolate Pickaxes",
+		cost: 150000,
+		purchased: false,
+		tooltip: "Chocolate Pickaxes \nCost: 150000 Cookies \nRequires at least 10 mines. \nCookies mined with these pickaxes are extra chocolatey! Each mine produces 100 more cookies at a time!",
+		prereq: 10
+	},
+	mineUpgrade2: {
+		tag: "mineUpgrade2",
+		name: "Chocolate Drills",
+		cost: 2000000,
+		purchased: false,
+		tooltip: "Chocolate Drills \nCost: 2000000 Cookies \nRequires at least 25 mines. \nCookies drilled with these are infused with extra chocolatey goodness! Each mine produces 150 more cookies at a time!",
 		prereq: 25
 	}
+	
 }
 
 window.onload = init();
@@ -53,10 +72,12 @@ function init()
 	//if (localStorage.getItem("save") !== "undefined")
 	//	load();
 	var cursorCost = Math.floor(10 * Math.pow(1.15,buildings.cursors));
-	var factoryCost = Math.floor(100 * Math.pow(1.1,buildings.factories));
+	var factoryCost = Math.floor(200 * Math.pow(1.13,buildings.factories));
+	var mineCost = Math.floor(20000 * Math.pow(1.16,buildings.mines));
 	
 	cursorEffUpdate();
 	factoryEffUpdate();
+	mineEffUpdate();
 	
 	updateCPC();
 	updateCPS();
@@ -65,16 +86,20 @@ function init()
 	document.getElementById("cookies").innerHTML = prettify(cookies);
 	document.getElementById("cursors").innerHTML = prettify(buildings.cursors);
 	document.getElementById("factories").innerHTML = prettify(buildings.factories);
+	document.getElementById("mines").innerHTML = prettify(buildings.mines);
 	document.getElementById("cookiesPerClick").innerHTML = prettify(cookiesPerClick);
 	document.getElementById("cookiesPerSecond").innerHTML = prettify(cookiesPerInterval * 10);
 	document.getElementById('cursorCost').innerHTML = prettify(cursorCost);
 	document.getElementById('factoryCost').innerHTML = prettify(factoryCost);
+	document.getElementById('mineCost').innerHTML = prettify(mineCost);
 	
 	//Tooltip handling
 	document.getElementById('cursorUpgrade1').setAttribute('title', upgrades.cursorUpgrade1.tooltip);
 	document.getElementById('cursorUpgrade2').setAttribute('title', upgrades.cursorUpgrade2.tooltip);
 	document.getElementById('factoryUpgrade1').setAttribute('title', upgrades.factoryUpgrade1.tooltip);	
 	document.getElementById('factoryUpgrade2').setAttribute('title', upgrades.factoryUpgrade2.tooltip);	
+	document.getElementById('mineUpgrade1').setAttribute('title', upgrades.mineUpgrade1.tooltip);	
+	document.getElementById('mineUpgrade2').setAttribute('title', upgrades.mineUpgrade2.tooltip);	
 };
 
 function cookiesOverTime(num)
@@ -89,36 +114,57 @@ function cookieClick()
 	cookies = cookies + cookiesPerClick;
 	document.getElementById("cookies").innerHTML = prettify(cookies);
 	console.log(cookiesPerClick);
-	console.log(upgrades.cursorUpgrade1.tag);
+};
+
+function debugClick()  // Used only for testing purposes
+{
+	cookies = cookies + 10000;
+	document.getElementById("cookies").innerHTML = prettify(cookies);
+	console.log(cookiesPerClick);
 };
 
 function buyCursor()
 {
-	var cursorCost = Math.floor(10 * Math.pow(1.15,buildings.cursors));    		//works out the cost of this cursor
+	var cursorCost = Math.floor(10 * Math.pow(1.15,buildings.cursors));
 	if(cookies >= cursorCost)
-	{                                   		//checks that the player can afford the cursor
-		buildings.cursors = buildings.cursors + 1;                                   		//increases number of cursors
-		cookies = cookies - cursorCost;                          		//removes the cookies spent
-		document.getElementById('cursors').innerHTML = prettify(buildings.cursors);  		//updates the number of cursors for the user
-		document.getElementById('cookies').innerHTML = prettify(cookies);  		//updates the number of cookies for the user
+	{
+		buildings.cursors = buildings.cursors + 1;
+		cookies = cookies - cursorCost;
+		document.getElementById('cursors').innerHTML = prettify(buildings.cursors);
+		document.getElementById('cookies').innerHTML = prettify(cookies);
 	};
-	var nextCost = Math.floor(10 * Math.pow(1.15,buildings.cursors));       		//works out the cost of the next cursor
-	document.getElementById('cursorCost').innerHTML = prettify(nextCost);  		//updates the cursor cost for the user
+	var nextCost = Math.floor(10 * Math.pow(1.15,buildings.cursors));
+	document.getElementById('cursorCost').innerHTML = prettify(nextCost);
 	updateCPC();
 };
 
 function buyFactory()
 {
-	var factoryCost = Math.floor(100 * Math.pow(1.1,buildings.factories));     	//works out the cost of this factory
+	var factoryCost = Math.floor(200 * Math.pow(1.13,buildings.factories));
 	if(cookies >= factoryCost)
-	{                                   		//checks that the player can afford the factory
-	        buildings.factories = buildings.factories + 1;                                   	//increases number of factories
-    		cookies = cookies - factoryCost;                          		//removes the cookies spent
-        	document.getElementById('factories').innerHTML = prettify(buildings.factories);  	//updates the number of factories for the user
-	        document.getElementById('cookies').innerHTML = prettify(cookies);  		//updates the number of cookies for the user
+	{
+	        buildings.factories = buildings.factories + 1;
+    		cookies = cookies - factoryCost;
+        	document.getElementById('factories').innerHTML = prettify(buildings.factories);
+	        document.getElementById('cookies').innerHTML = prettify(cookies);
 	};
-	var nextCost = Math.floor(100 * Math.pow(1.1,buildings.factories));       	//works out the cost of the next factory
-	document.getElementById('factoryCost').innerHTML = prettify(nextCost);  		//updates the factory cost for the user
+	var nextCost = Math.floor(200 * Math.pow(1.13,buildings.factories));
+	document.getElementById('factoryCost').innerHTML = prettify(nextCost);
+	updateCPS();
+};
+
+function buyMine()
+{
+	var mineCost = Math.floor(20000 * Math.pow(1.16,buildings.mines));
+	if(cookies >= mineCost)
+	{
+	        buildings.mines = buildings.mines + 1;
+    		cookies = cookies - mineCost;
+        	document.getElementById('mines').innerHTML = prettify(buildings.mines);
+	        document.getElementById('cookies').innerHTML = prettify(cookies);
+	};
+	var nextCost = Math.floor(20000 * Math.pow(1.16,buildings.mines));
+	document.getElementById('mineCost').innerHTML = prettify(nextCost);
 	updateCPS();
 };
 
@@ -128,7 +174,7 @@ function buyUpgrade(upgradeName)
 	switch (upgradeName){
 		case "Reinforced Fingers":
 			var upgr = upgrades.cursorUpgrade1;
-			if(cookies >= upgr.cost && upgr.purchased == false && buildings.cursors >= upgr.prereq)  //checks that the player can afford the upgrade and hasn't purchased it yet
+			if(cookies >= upgr.cost && upgr.purchased == false && buildings.cursors >= upgr.prereq)
 			{
 			        upgr.purchased = true;
 			        cursorEffUpdate();
@@ -140,7 +186,7 @@ function buyUpgrade(upgradeName)
 			break;
 		case "Ambidextrous":
 			var upgr = upgrades.cursorUpgrade2;
-			if(cookies >= upgr.cost && upgr.purchased == false && buildings.cursors >= upgr.prereq)  //checks that the player can afford the upgrade and hasn't purchased it yet
+			if(cookies >= upgr.cost && upgr.purchased == false && buildings.cursors >= upgr.prereq)
 			{
 			        upgr.purchased = true;
 			        cursorEffUpdate();
@@ -152,7 +198,7 @@ function buyUpgrade(upgradeName)
 			break;
 		case "Safety Regulations":
 			var upgr = upgrades.factoryUpgrade1;
-			if(cookies >= upgr.cost && upgr.purchased == false && buildings.factories >= upgr.prereq)  //checks that the player can afford the upgrade and hasn't purchased it yet
+			if(cookies >= upgr.cost && upgr.purchased == false && buildings.factories >= upgr.prereq)
 			{
 			        upgr.purchased = true;
 			        factoryEffUpdate();
@@ -164,10 +210,34 @@ function buyUpgrade(upgradeName)
 			break;
 		case "Conveyor Belts":
 			var upgr = upgrades.factoryUpgrade2;
-			if(cookies >= upgr.cost && upgr.purchased == false && buildings.factories >= upgr.prereq)  //checks that the player can afford the upgrade and hasn't purchased it yet
+			if(cookies >= upgr.cost && upgr.purchased == false && buildings.factories >= upgr.prereq)
 			{
 			        upgr.purchased = true;
 			        factoryEffUpdate();
+					updateCPS();
+		    		cookies = cookies - upgr.cost;
+		        	updateUpgradeButtons();
+			        document.getElementById('cookies').innerHTML = prettify(cookies);
+			};
+			break;
+		case "Chocolate Pickaxes":
+			var upgr = upgrades.mineUpgrade1;
+			if(cookies >= upgr.cost && upgr.purchased == false && buildings.mines >= upgr.prereq)
+			{
+			        upgr.purchased = true;
+			        mineEffUpdate();
+					updateCPS();
+		    		cookies = cookies - upgr.cost;
+		        	updateUpgradeButtons();
+			        document.getElementById('cookies').innerHTML = prettify(cookies);
+			};
+			break;
+		case "Chocolate Drills":
+			var upgr = upgrades.mineUpgrade2;
+			if(cookies >= upgr.cost && upgr.purchased == false && buildings.mines >= upgr.prereq)
+			{
+			        upgr.purchased = true;
+			        mineEffUpdate();
 					updateCPS();
 		    		cookies = cookies - upgr.cost;
 		        	updateUpgradeButtons();
@@ -190,7 +260,8 @@ function updateCPC()
 function updateCPS()
 {
 	factoryEffUpdate();
-	cookiesPerInterval = factoryEff;
+	mineEffUpdate();
+	cookiesPerInterval = factoryEff + mineEff;
 	document.getElementById('cookiesPerSecond').innerHTML = prettify(cookiesPerInterval * 10);
 }
 
@@ -276,4 +347,11 @@ function factoryEffUpdate()  // Used when updating CPS
 	factoryEff = buildings.factories;
 	if (upgrades.factoryUpgrade1.purchased == true) {factoryEff = factoryEff * 2;}
 	if (upgrades.factoryUpgrade2.purchased == true) {factoryEff = factoryEff * 2;}
+}
+
+function mineEffUpdate()  // Used when updating CPS
+{
+	mineEff = buildings.mines * 15;
+	if (upgrades.mineUpgrade1.purchased == true) {mineEff = mineEff + 10 * buildings.mines;}
+	if (upgrades.mineUpgrade2.purchased == true) {mineEff = mineEff + 15 * buildings.mines;}
 }
